@@ -1,6 +1,9 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 
-project (cppgan-kata)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+project(cppgan)
+
+find_package(Torch REQUIRED)
 
 # We have gtest/gmock as a Git submodule, add subdirectory to pick
 # this up we we can use it as a dependency
@@ -12,6 +15,8 @@ add_subdirectory(lib/gtest)
 file (GLOB productionSources src/*.cpp)
 add_library (cppgan STATIC ${productionSources})
 target_include_directories (cppgan PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(cppgan "${TORCH_LIBRARIES}")
+set_property(TARGET cppgan PROPERTY CXX_STANDARD 11)
 
 file (GLOB testSources test/*.cpp)
 add_executable (cppgantest ${testSources})
