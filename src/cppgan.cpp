@@ -28,7 +28,7 @@ const int64_t kNumberOfSamplesPerCheckpoint = 10;
 const bool kRestoreFromCheckpoint = false;
 
 // After how many batches to log a new update with the loss value.
-const int64_t kLogInterval = 10;
+const int64_t kLogInterval = 1;
 
 using namespace torch;
 
@@ -40,6 +40,8 @@ int main(int argc, const char* argv[]) {
   if (torch::cuda::is_available()) {
     std::cout << "CUDA is available! Training on GPU." << std::endl;
     device = torch::Device(torch::kCUDA);
+  } else {
+    std::cout << "Sans Cuda! Training on CPU." << std::endl;
   }
 
   nn::Sequential generator(
@@ -101,10 +103,12 @@ int main(int argc, const char* argv[]) {
                      .map(torch::data::transforms::Stack<>());
   const int64_t batches_per_epoch =
       std::ceil(dataset.size().value() / static_cast<double>(kBatchSize));
-
+  
+  std::cout << "Preparing data loader..." << std::endl;
   auto data_loader = torch::data::make_data_loader(
       std::move(dataset),
       torch::data::DataLoaderOptions().batch_size(kBatchSize).workers(2));
+    std::cout << "Data loader ready!." << std::endl;
 
   torch::optim::Adam generator_optimizer(
       generator->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
