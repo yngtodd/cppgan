@@ -1,5 +1,3 @@
-cmake_minimum_required (VERSION 3.0)
-
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(cppgan)
 
@@ -29,7 +27,7 @@ target_include_directories (cppgantest PRIVATE ${PROJECT_SOURCE_DIR}/include)
 # you'll want to use the "make unit" target.
 enable_testing ()
 
-# Add the unit tests executable 
+# Add the unit tests executable
 add_test (Unit cppgantest)
 
 
