@@ -15,7 +15,7 @@ const int64_t kBatchSize = 64;
 const int64_t kNumberOfEpochs = 30;
 
 // Where to find the MNIST dataset.
-const char* kDataFolder = "./data";
+const char* kDataFolder = "../data";
 
 // After how many batches to create a new checkpoint periodically.
 const int64_t kCheckpointEvery = 200;
